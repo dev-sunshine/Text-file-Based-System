@@ -43,14 +43,14 @@ namespace Text_file_Based_System
             Console.WriteLine("\nHello !");
             CreateFile();
             while(true) {
-            Console.WriteLine("\nWhich service do you want? (Enter Number Only)\n1. Add a new teacher.\n2. retrieve all teachers data.\n3. retrieve teacher data.\n4. Update teacher data.\n5. Exit.\n");
+            Console.WriteLine("\nWhich service do you want? (Enter Number Only)\n1. Add a new teacher.\n2. retrieve all teachers data.\n3. retrieve teacher data by ID.\n4. retrieve teacher data by name.\n5. Update teacher data.\n6. Exit.\n");
             int serviceNum;
             bool isNemuricValue= int.TryParse(Console.ReadLine(), out serviceNum); //if it is true value is the parsed number or 0
             if (!isNemuricValue) {
                 Console.WriteLine("You have to enter numeric value only");
                 continue;
             }
-            if (serviceNum == 5)  {
+            if (serviceNum == 6)  {
                 break;
             }
             int teacherID = 0;
@@ -81,6 +81,17 @@ namespace Text_file_Based_System
                 break;
 
                 case 3:
+                Console.WriteLine("enter Teacher ID:");
+                isNemuricValue= int.TryParse(Console.ReadLine(), out teacherID); //if it is true value is the parsed number or 0
+                if (!isNemuricValue) {
+                Console.WriteLine("You have to enter numeric value only");
+                continue;
+                 }
+                teacher = findTeacherById(teacherID);
+                if (teacher!=null)
+                Console.WriteLine(teacher);
+                else
+                Console.WriteLine("teacher not exist");
                 break;
 
                 case 4:
@@ -109,8 +120,11 @@ namespace Text_file_Based_System
                     Console.WriteLine(teacher);
                     }
                     }
-            
         }// end printAllTeachersData method
+
+        public static Teacher findTeacherById(int ID){
+            return  teacherList.Find (x => x.ID== ID);
+        }
 
         
     } //end Program class
