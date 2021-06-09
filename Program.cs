@@ -104,6 +104,27 @@ namespace Text_file_Based_System
                 Console.WriteLine($"teacher {teacherName} not exist");
                 break;
 
+                case 5:
+                Console.WriteLine("Enter the teacher ID in order to update his/her data: ");
+                Console.WriteLine("enter Teacher ID:");
+                isNemuricValue = int.TryParse(Console.ReadLine(), out teacherID);
+                if (!isNemuricValue) {
+                    Console.WriteLine("enter numeric value only");
+                continue;
+                }
+                teacher = findTeacherById(teacherID);
+                if(teacher==null) {
+                    Console.WriteLine("Teacher with this ID is not exist!");
+                continue;
+                }
+                Console.WriteLine(teacher);
+                Console.WriteLine("Enter the teacher class");
+                updateTeacherClass(teacher, Console.ReadLine());
+                Console.WriteLine("Enter the teacher section");
+                updateTeacherSection(teacher, Console.ReadLine());
+                Console.WriteLine("teacher data updated successfully: \n" + teacher);
+                break;
+
                 default:
                 Console.WriteLine("Enter only 1 to 6.");
                 break;
@@ -129,6 +150,7 @@ namespace Text_file_Based_System
                     }
         }// end printAllTeachersData method
 
+        //Find a Teacher methods
         public static Teacher findTeacherById(int ID){
             return  teacherList.Find (x => x.ID== ID);
         }
@@ -136,6 +158,19 @@ namespace Text_file_Based_System
             return  teacherList.Find (x => x.Name.Equals(name));
         }
 
+        //Update Teacher data methods
+        public static bool updateTeacherClass (Teacher teacher, string Class){
+            if (teacher==null)
+            return false;
+            teacher.Class = Class;
+            return true;
+        }
+        public static bool updateTeacherSection (Teacher teacher, string Section){
+            if (teacher==null)
+            return false;
+            teacher.Section = Section;
+            return true;
+        }
         
     } //end Program class
 }
