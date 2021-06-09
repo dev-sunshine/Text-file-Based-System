@@ -1,0 +1,10 @@
+/Users/bashayer/Documents/GitHub/Text-file-Based-System/bin/Debug/netcoreapp2.0/Text-file-Based-System.deps.json
+/Users/bashayer/Documents/GitHub/Text-file-Based-System/bin/Debug/netcoreapp2.0/Text-file-Based-System.runtimeconfig.json
+/Users/bashayer/Documents/GitHub/Text-file-Based-System/bin/Debug/netcoreapp2.0/Text-file-Based-System.runtimeconfig.dev.json
+/Users/bashayer/Documents/GitHub/Text-file-Based-System/bin/Debug/netcoreapp2.0/Text-file-Based-System.dll
+/Users/bashayer/Documents/GitHub/Text-file-Based-System/bin/Debug/netcoreapp2.0/Text-file-Based-System.pdb
+/Users/bashayer/Documents/GitHub/Text-file-Based-System/obj/Debug/netcoreapp2.0/Text-file-Based-System.csproj.CoreCompileInputs.cache
+/Users/bashayer/Documents/GitHub/Text-file-Based-System/obj/Debug/netcoreapp2.0/Text-file-Based-System.AssemblyInfoInputs.cache
+/Users/bashayer/Documents/GitHub/Text-file-Based-System/obj/Debug/netcoreapp2.0/Text-file-Based-System.AssemblyInfo.cs
+/Users/bashayer/Documents/GitHub/Text-file-Based-System/obj/Debug/netcoreapp2.0/Text-file-Based-System.dll
+/Users/bashayer/Documents/GitHub/Text-file-Based-System/obj/Debug/netcoreapp2.0/Text-file-Based-System.pdb
