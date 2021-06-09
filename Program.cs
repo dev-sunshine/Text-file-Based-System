@@ -21,13 +21,17 @@ namespace Text_file_Based_System
         static void Main(string[] args)
         {
             Console.WriteLine("\nHello !");
-            Console.WriteLine("\nWhich service do you want? (Enter Number Only)\n1. Add a new teacher. \n2. retrieve all teacher data. \n3. retrieve teacher data. \n4. Update teacher data.\n");
+            while(true) {
+            Console.WriteLine("\nWhich service do you want? (Enter Number Only)\n1. Add a new teacher.\n2. retrieve all teacher data.\n3. retrieve teacher data.\n4. Update teacher data.\n5. Exit.\n");
             int serviceNum;
             bool isNemuricValue= int.TryParse(Console.ReadLine(), out serviceNum); //if it is true value is the parsed number or 0
             if (!isNemuricValue) {
                 Console.WriteLine("You have to enter numeric value only");
+                continue;
             }
-            else {
+            if (serviceNum == 5)  {
+                break;
+            }
             int teacherID = 0;
             Teacher teacher = null;
             string name = "";
@@ -42,7 +46,7 @@ namespace Text_file_Based_System
                 isNemuricValue = int.TryParse(Console.ReadLine(), out teacherID);
                 if (!isNemuricValue) {
                     Console.WriteLine("enter numeric value only");
-                    break;
+                    continue;
                 }
                 Console.WriteLine("enter Teacher class:");
                 teacherClass = Console.ReadLine();
@@ -64,7 +68,8 @@ namespace Text_file_Based_System
                 Console.WriteLine("Enter only 1 to 4.");
                 break;
             }
-            }
+            
+            }//end while
         }// end Main method
     } //end Program class
 }
