@@ -35,7 +35,7 @@ namespace Text_file_Based_System
                 Console.WriteLine("the file is empty! a new file created");
             }
             Console.WriteLine($"{fileName} File found!");
-            
+
         }
 
         static void Main(string[] args)
@@ -43,7 +43,7 @@ namespace Text_file_Based_System
             Console.WriteLine("\nHello !");
             CreateFile();
             while(true) {
-            Console.WriteLine("\nWhich service do you want? (Enter Number Only)\n1. Add a new teacher.\n2. retrieve all teacher data.\n3. retrieve teacher data.\n4. Update teacher data.\n5. Exit.\n");
+            Console.WriteLine("\nWhich service do you want? (Enter Number Only)\n1. Add a new teacher.\n2. retrieve all teachers data.\n3. retrieve teacher data.\n4. Update teacher data.\n5. Exit.\n");
             int serviceNum;
             bool isNemuricValue= int.TryParse(Console.ReadLine(), out serviceNum); //if it is true value is the parsed number or 0
             if (!isNemuricValue) {
@@ -77,6 +77,7 @@ namespace Text_file_Based_System
                 break;
 
                 case 2:
+                printAllTeachersData();
                 break;
 
                 case 3:
@@ -99,6 +100,17 @@ namespace Text_file_Based_System
              teacherList.Add(teacher);
              Console.WriteLine("Teacher added successfully! \n"+teacher);
         } // end addTeacher method
+        
+        public static void printAllTeachersData (){
+            if(teacherList.Count==0)
+            Console.WriteLine("There is no teachers yet");
+            else {
+                foreach(var teacher in teacherList){
+                    Console.WriteLine(teacher);
+                    }
+                    }
+            
+        }// end printAllTeachersData method
 
         
     } //end Program class
