@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;  
 
 namespace Text_file_Based_System
 {
@@ -14,6 +15,11 @@ namespace Text_file_Based_System
         public string Name { get; set; }
         public string Class { get; set; }
         public string Section { get; set; }
+
+        public override string ToString()
+    {
+        return $"Teacher ID: {ID}, Name: {Name}, class: {Class}, section: {Section}.";
+    }
 
      } //end Teacher class
     class Program
@@ -34,14 +40,14 @@ namespace Text_file_Based_System
             }
             int teacherID = 0;
             Teacher teacher = null;
-            string name = "";
+            string teacherName = "";
             string teacherClass = "";
             string teacherSection = "";
             switch(serviceNum)
             {
                 case 1:
                 Console.WriteLine("enter Teacher name:");
-                name = Console.ReadLine();
+                teacherName = Console.ReadLine();
                 Console.WriteLine("enter Teacher ID:");
                 isNemuricValue = int.TryParse(Console.ReadLine(), out teacherID);
                 if (!isNemuricValue) {
@@ -52,7 +58,7 @@ namespace Text_file_Based_System
                 teacherClass = Console.ReadLine();
                 Console.WriteLine("enter Teacher section:");
                 teacherSection = Console.ReadLine();
-                teacher = new Teacher(teacherID,name,teacherClass,teacherSection);
+                addTeacher(teacherID, teacherName, teacherClass, teacherSection);
                 break;
 
                 case 2:
@@ -71,5 +77,13 @@ namespace Text_file_Based_System
             
             }//end while
         }// end Main method
+
+
+        public static void addTeacher(int ID, string name, string teacherClass, string section) {
+             Teacher teacher = new Teacher(ID, name, teacherClass, section);
+             Console.WriteLine("Teacher added successfully! \n"+teacher);
+        } // end addTeacher method
+
+        
     } //end Program class
 }
