@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;  
+using System.IO;
 
 namespace Text_file_Based_System
 {
@@ -25,9 +26,22 @@ namespace Text_file_Based_System
     class Program
     {
         static List< Teacher> teacherList = new List <Teacher>();
+        const string fileName = "project.txt";
+
+        public static void CreateFile(){
+
+            if(!File.Exists(fileName)){
+                File.CreateText(fileName);
+                Console.WriteLine("the file is empty! a new file created");
+            }
+            Console.WriteLine($"{fileName} File found!");
+            
+        }
+
         static void Main(string[] args)
         {
             Console.WriteLine("\nHello !");
+            CreateFile();
             while(true) {
             Console.WriteLine("\nWhich service do you want? (Enter Number Only)\n1. Add a new teacher.\n2. retrieve all teacher data.\n3. retrieve teacher data.\n4. Update teacher data.\n5. Exit.\n");
             int serviceNum;
