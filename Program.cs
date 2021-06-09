@@ -24,6 +24,7 @@ namespace Text_file_Based_System
      } //end Teacher class
     class Program
     {
+        static List< Teacher> teacherList = new List <Teacher>();
         static void Main(string[] args)
         {
             Console.WriteLine("\nHello !");
@@ -81,6 +82,7 @@ namespace Text_file_Based_System
 
         public static void addTeacher(int ID, string name, string teacherClass, string section) {
              Teacher teacher = new Teacher(ID, name, teacherClass, section);
+             teacherList.Add(teacher);
              Console.WriteLine("Teacher added successfully! \n"+teacher);
         } // end addTeacher method
 
