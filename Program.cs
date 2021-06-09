@@ -95,10 +95,17 @@ namespace Text_file_Based_System
                 break;
 
                 case 4:
+                Console.WriteLine("enter Teacher name:");
+                teacherName = Console.ReadLine();
+                teacher = findTeacherByName(teacherName);
+                if (teacher!=null)
+                Console.WriteLine(teacher);
+                else
+                Console.WriteLine($"teacher {teacherName} not exist");
                 break;
 
                 default:
-                Console.WriteLine("Enter only 1 to 4.");
+                Console.WriteLine("Enter only 1 to 6.");
                 break;
             }
             
@@ -124,6 +131,9 @@ namespace Text_file_Based_System
 
         public static Teacher findTeacherById(int ID){
             return  teacherList.Find (x => x.ID== ID);
+        }
+        public static Teacher findTeacherByName(string name){
+            return  teacherList.Find (x => x.Name.Equals(name));
         }
 
         
