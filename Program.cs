@@ -38,10 +38,21 @@ namespace Text_file_Based_System
 
         }
 
+        static void appendTeacherListToFile () {
+            foreach( Teacher teacher in teacherList){
+            using(StreamWriter writer = new StreamWriter(fileName)){
+                writer.WriteLine(teacher);
+            }
+            }
+
+            Console.WriteLine("File updated");
+        }
+
         static void Main(string[] args)
         {
             Console.WriteLine("\nHello !");
             CreateFile();
+
             while(true) {
             Console.WriteLine("\nWhich service do you want? (Enter Number Only)\n1. Add a new teacher.\n2. retrieve all teachers data.\n3. retrieve teacher data by ID.\n4. retrieve teacher data by name.\n5. Update teacher data.\n6. Exit.\n");
             int serviceNum;
@@ -51,6 +62,7 @@ namespace Text_file_Based_System
                 continue;
             }
             if (serviceNum == 6)  {
+                appendTeacherListToFile();
                 break;
             }
             int teacherID = 0;
