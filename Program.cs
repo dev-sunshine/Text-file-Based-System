@@ -69,6 +69,10 @@ namespace Text_file_Based_System
                     Console.WriteLine("enter numeric value only");
                     continue;
                 }
+                if(teacherList.Exists(x => x.ID== teacherID)) {
+                    Console.WriteLine("this ID already exists");
+                    continue;
+                }
                 Console.WriteLine("enter Teacher class:");
                 teacherClass = Console.ReadLine();
                 Console.WriteLine("enter Teacher section:");
