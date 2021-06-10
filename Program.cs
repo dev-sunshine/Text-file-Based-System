@@ -16,17 +16,25 @@ namespace Text_file_Based_System
         public int ID { get; set; }
         public string Name { get; set; }
 
-        public void AddClass (Class className) {
+        public bool AddClass (Class className) {
+            if(ClassList.Exists(x => x.Name.Equals(className.Name.ToLower())))
+            return false;
             ClassList.Add(className);
-        }
-        public void UpdateClass (Class oldClass, string newClassName) {
-            Class c = ClassList.Find (x => x.Name.Equals(oldClass.Name));
-            ClassList.Add(c);
+            return true;
         }
 
-        public List <Class> GetClassList () {
-            return ClassList;
+        public bool UpdateClass (string oldClass, string newClassName) {
+            Class c = ClassList.Find (x => x.Name.Equals(oldClass.ToLower()));
+            if(c == null)
+            return false;
+            c.Name = newClassName;
+            return true;
         }
+
+        public Class GetClass (string className) {
+            return ClassList.Find (x => x.Name.Equals(className.ToLower()));
+        }
+
         public int GetNumberOfClasses () {
             return ClassList.Count;
         }
@@ -42,21 +50,35 @@ namespace Text_file_Based_System
      } //end Teacher class
      class Class 
     {
-        private List <string> SectionList;
+        private List <Section> SectionList;
+
         public Class (string name ) {
             Name = name.ToLower();
-            SectionList = new List <string> ();
+            SectionList = new List <Section> ();
 
         }
         public string Name { get; set; }
-        public List <string> GetSectionList () {
-            return SectionList;
-        }
-        public bool AddSection (string section) {
-            string section1 = SectionList.Find (x => x.Equals(section));
+        
+        public bool AddSection (string sectionName) {
+            if(SectionList.Exists(x => x.Name.Equals(sectionName)))
+            return false;
+            Section section = new Section (sectionName);
             SectionList.Add(section);
             return true;
         }
+
+        public bool SectionExists (string sectionName) {
+            return SectionList.Exists(x => x.Name.Equals(sectionName.ToLower()));
+        }
+
+        public bool UpdateSection (string oldSection, string newSection) {
+            Section section = SectionList.Find (x => x.Name.Equals(oldSection.ToLower()));
+            if(section == null)
+            return false;
+            section.Name = newSection;
+            return true;
+        }
+
         public int GetNumberOfSections () {
             return SectionList.Count;
         }
@@ -64,8 +86,22 @@ namespace Text_file_Based_System
         {
             string tostring = $"Class: {Name}\n";
             foreach (var element in SectionList)
-            tostring += $"Section: {element.ToString()}\n";
+                tostring += element.ToString();
             return tostring;
+        }
+
+    }//end Class class
+
+         class Section 
+    {
+        public Section (string name ) {
+            Name = name.ToLower();
+        }
+        public string Name { get; set; }
+        
+        public override string ToString()
+        {
+            return $"Section: {Name}\n";
         }
 
     }//end Class class
@@ -83,6 +119,7 @@ namespace Text_file_Based_System
                 File.CreateText(fileName);
                 Console.WriteLine("the file is empty! a new file created");
             }
+            else
             Console.WriteLine($"{fileName} File found!");
 
         }
@@ -118,6 +155,7 @@ namespace Text_file_Based_System
             string teacherName = "";
             string teacherClass = "";
             string teacherSection = "";
+            Class c = null;
             
             switch(serviceNum)
             {
@@ -141,42 +179,49 @@ namespace Text_file_Based_System
                 teacher = new Teacher (teacherID, teacherName);
 
                 while(true) {
-                Console.WriteLine("enter Teacher class: if you finish enter 1");
+                Console.WriteLine("enter Teacher class: if you finish enter 0");
                 teacherClass = Console.ReadLine();
                 if(teacherClass.Equals("")) {
                     Console.WriteLine("should not be empty! try again");
                     continue;
                 }
-                if(teacherClass.Equals("1")&&teacher.GetNumberOfClasses()==0) {
+                if(teacherClass.Equals("0")&&teacher.GetNumberOfClasses()==0) {
                     Console.WriteLine("you should add at least one class");
                     continue;
                 } 
-                else if (teacherClass.Equals("1")&&teacher.GetNumberOfClasses()!=0) {
+                else if (teacherClass.Equals("0")&&teacher.GetNumberOfClasses()!=0) {
                     break;
                 }
-                Class c = new Class(teacherClass);
-                teacher.AddClass(c);
-
+                c = new Class(teacherClass);
+                if(!teacher.AddClass(c))
+                {
+                    Console.WriteLine("Class already exist");
+                    continue;
+                }
 
                 while(true) {
-                    Console.WriteLine($"enter Teacher section for this class {teacherClass}: if you finish enter 1");
+                    Console.WriteLine($"enter Teacher section for this class {teacherClass}: if you finish enter 0");
                     teacherSection = Console.ReadLine();
                     
                     if(teacherSection.Equals("")) {
                         Console.WriteLine("should not be empty! try again");
                         continue;
                     }
-                    if(teacherSection.Equals("1")&&c.GetNumberOfSections()==0) {
+                    if(teacherSection.Equals("0")&&c.GetNumberOfSections()==0) {
                     Console.WriteLine("you should add at least one section");
                     continue;
                 } 
-                else if (teacherSection.Equals("1")&&c.GetNumberOfSections()!=0) {
+                else if (teacherSection.Equals("0")&&c.GetNumberOfSections()!=0) {
                     break;
                 }
-                    c.AddSection(teacherSection);
+                    if(!c.AddSection(teacherSection))
+                    {
+                    Console.WriteLine("Section already exist");
+                    continue;
+                    }
                 }
                 }
-                addTeacher(teacher);
+                addTeacherToList(teacher);
                 break;
 
                 case 2:
@@ -208,7 +253,7 @@ namespace Text_file_Based_System
                 break;
 
                 case 5:
-                /* 
+                
                 Console.WriteLine("Enter the teacher ID in order to update his/her data: ");
                 Console.WriteLine("enter Teacher ID:");
                 isNemuricValue = int.TryParse(Console.ReadLine(), out teacherID);
@@ -222,12 +267,81 @@ namespace Text_file_Based_System
                 continue;
                 }
                 Console.WriteLine(teacher);
-                Console.WriteLine("Enter the teacher class");
-                updateTeacherClass(teacher, Console.ReadLine());
-                Console.WriteLine("Enter the teacher section");
-                updateTeacherSection(teacher, Console.ReadLine());
-                Console.WriteLine("teacher data updated successfully: \n" + teacher);
-                */
+                int userEntered = 0;
+                while(true) {
+                Console.WriteLine("1. Change teacher name.\n2. Change one of the teacher classes.\n3. Change one of the teacher sections.\n4. Exit.\n");
+                isNemuricValue= int.TryParse(Console.ReadLine(), out userEntered);
+                if (!isNemuricValue) {
+                Console.WriteLine("You have to enter numeric value only");
+                continue;
+                 }
+                if(userEntered == 4)
+                break;
+                switch(userEntered) {
+                    case 1:
+                    Console.WriteLine("Enter the new name: ");
+                    teacherName = Console.ReadLine();
+                    if(teacherName.Equals("")) {
+                        Console.WriteLine("should not be empty! try again");
+                        continue;
+                    }
+                    teacher.Name = teacherName;
+                    break;
+                    case 2:
+                    string oldClassName = "";
+                    Console.WriteLine("Enter the old class name: ");
+                    oldClassName = Console.ReadLine();
+                    c = teacher.GetClass(oldClassName);
+                    if(c==null) {
+                        Console.WriteLine("this class not exist!");
+                        continue;
+                    }
+                    Console.WriteLine("Enter the new class name: ");
+                    teacherClass = Console.ReadLine();
+                    if(oldClassName.Equals("")||teacherClass.Equals("")) {
+                        Console.WriteLine("should not be empty! try again");
+                        continue;
+                    }
+                    if(teacher.UpdateClass(oldClassName,teacherClass))
+                        Console.WriteLine("class updated successfully");
+                    else 
+                    Console.WriteLine("something wrong! class not updated");
+
+                    break;
+                    case 3:
+                    Console.WriteLine("Enter the class of the section: ");
+                    teacherClass = Console.ReadLine();
+                    c = teacher.GetClass(teacherClass);
+                    if (c == null) {
+                        Console.WriteLine("this course not exist!");
+                        continue;
+                    }
+                    string newSectionName = "";
+                    string oldSectionName = "";
+                    Console.WriteLine("Enter the old section name: ");
+                    oldSectionName = Console.ReadLine();
+                    if (!c.SectionExists(oldSectionName)) {
+                        Console.WriteLine("this section not exist!");
+                        continue;
+                    }
+                    Console.WriteLine("Enter the new section name: ");
+                    newSectionName = Console.ReadLine();
+                    if(oldSectionName.Equals("")||newSectionName.Equals("")) {
+                        Console.WriteLine("should not be empty! try again");
+                        continue;
+                    }
+
+                    if (c.UpdateSection(oldSectionName,newSectionName))
+                    Console.WriteLine("section updated successfully");
+                    else 
+                    Console.WriteLine("something wrong! section not updated");
+                    break;
+                    default:
+                    Console.WriteLine("Enter only 1 to 4.");
+                    break;
+
+                }
+                }
                 break;
 
                 default:
@@ -239,10 +353,10 @@ namespace Text_file_Based_System
         }// end Main method
 
 
-        public static void addTeacher(Teacher teacher) {
+        public static void addTeacherToList(Teacher teacher) {
              teacherList.Add(teacher);
              Console.WriteLine("Teacher added successfully! \n"+teacher);
-        } // end addTeacher method
+        } // end addTeacherToList method
         
         public static void printAllTeachersData (){
             if(teacherList.Count==0)
@@ -261,21 +375,6 @@ namespace Text_file_Based_System
         public static Teacher findTeacherByName(string name){
             return  teacherList.Find (x => x.Name.Equals(name));
         }
-        /*
-        //Update Teacher data methods
-        public static bool updateTeacherClass (Teacher teacher, string Class){
-            if (teacher==null)
-            return false;
-            teacher.Class = Class;
-            return true;
-        }
-        public static bool updateTeacherSection (Teacher teacher, string Section){
-            if (teacher==null)
-            return false;
-            teacher.Section = Section;
-            return true;
-        }
-         */
         
         
     } //end Program class

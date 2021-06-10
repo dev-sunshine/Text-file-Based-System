@@ -1,8 +1,7 @@
-Teacher ID: 2
-Teacher Name: 2
-Class: math
-Section: 12
-Section: 334
-Class: asd
-Section: 546
+Teacher ID: 1
+Teacher Name: 1
+Class: 1
+Section: 1
+Class: 2
+Section: 2
 
