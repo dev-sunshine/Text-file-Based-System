@@ -6,23 +6,72 @@ namespace Text_file_Based_System
 {
     class Teacher
      {
-         public Teacher(int id, string name, string teacherClass, string section) {
+        private List <Class> ClassList;
+
+        public Teacher(int id, string name) {
              ID = id;
              Name = name;
-             Class = teacherClass;
-             Section = section;
+             ClassList = new List <Class>();
          }
         public int ID { get; set; }
         public string Name { get; set; }
-        public string Class { get; set; }
-        public string Section { get; set; }
+
+        public void AddClass (Class className) {
+            ClassList.Add(className);
+        }
+        public void UpdateClass (Class oldClass, string newClassName) {
+            Class c = ClassList.Find (x => x.Name.Equals(oldClass.Name));
+            ClassList.Add(c);
+        }
+
+        public List <Class> GetClassList () {
+            return ClassList;
+        }
+        public int GetNumberOfClasses () {
+            return ClassList.Count;
+        }
 
         public override string ToString()
-    {
-        return $"Teacher ID: {ID}, Name: {Name}, class: {Class}, section: {Section}.";
-    }
+        {
+            string tostring = $"Teacher ID: {ID}\nTeacher Name: {Name}\n";
+            foreach (var element in ClassList)
+            tostring += element.ToString();
+            return tostring;
+        }
 
      } //end Teacher class
+     class Class 
+    {
+        private List <string> SectionList;
+        public Class (string name ) {
+            Name = name.ToLower();
+            SectionList = new List <string> ();
+
+        }
+        public string Name { get; set; }
+        public List <string> GetSectionList () {
+            return SectionList;
+        }
+        public bool AddSection (string section) {
+            string section1 = SectionList.Find (x => x.Equals(section));
+            SectionList.Add(section);
+            return true;
+        }
+        public int GetNumberOfSections () {
+            return SectionList.Count;
+        }
+        public override string ToString()
+        {
+            string tostring = $"Class: {Name}\n";
+            foreach (var element in SectionList)
+            tostring += $"Section: {element.ToString()}\n";
+            return tostring;
+        }
+
+    }//end Class class
+
+
+
     class Program
     {
         static List< Teacher> teacherList = new List <Teacher>();
@@ -52,7 +101,6 @@ namespace Text_file_Based_System
         {
             Console.WriteLine("\nHello !");
             CreateFile();
-
             while(true) {
             Console.WriteLine("\nWhich service do you want? (Enter Number Only)\n1. Add a new teacher.\n2. retrieve all teachers data.\n3. retrieve teacher data by ID.\n4. retrieve teacher data by name.\n5. Update teacher data.\n6. Exit.\n");
             int serviceNum;
@@ -70,11 +118,16 @@ namespace Text_file_Based_System
             string teacherName = "";
             string teacherClass = "";
             string teacherSection = "";
+            
             switch(serviceNum)
             {
                 case 1:
                 Console.WriteLine("enter Teacher name:");
                 teacherName = Console.ReadLine();
+                if(teacherName.Equals("")) {
+                    Console.WriteLine("should not be empty! try again");
+                    continue;
+                }
                 Console.WriteLine("enter Teacher ID:");
                 isNemuricValue = int.TryParse(Console.ReadLine(), out teacherID);
                 if (!isNemuricValue) {
@@ -85,11 +138,45 @@ namespace Text_file_Based_System
                     Console.WriteLine("this ID already exists");
                     continue;
                 }
-                Console.WriteLine("enter Teacher class:");
+                teacher = new Teacher (teacherID, teacherName);
+
+                while(true) {
+                Console.WriteLine("enter Teacher class: if you finish enter 1");
                 teacherClass = Console.ReadLine();
-                Console.WriteLine("enter Teacher section:");
-                teacherSection = Console.ReadLine();
-                addTeacher(teacherID, teacherName, teacherClass, teacherSection);
+                if(teacherClass.Equals("")) {
+                    Console.WriteLine("should not be empty! try again");
+                    continue;
+                }
+                if(teacherClass.Equals("1")&&teacher.GetNumberOfClasses()==0) {
+                    Console.WriteLine("you should add at least one class");
+                    continue;
+                } 
+                else if (teacherClass.Equals("1")&&teacher.GetNumberOfClasses()!=0) {
+                    break;
+                }
+                Class c = new Class(teacherClass);
+                teacher.AddClass(c);
+
+
+                while(true) {
+                    Console.WriteLine($"enter Teacher section for this class {teacherClass}: if you finish enter 1");
+                    teacherSection = Console.ReadLine();
+                    
+                    if(teacherSection.Equals("")) {
+                        Console.WriteLine("should not be empty! try again");
+                        continue;
+                    }
+                    if(teacherSection.Equals("1")&&c.GetNumberOfSections()==0) {
+                    Console.WriteLine("you should add at least one section");
+                    continue;
+                } 
+                else if (teacherSection.Equals("1")&&c.GetNumberOfSections()!=0) {
+                    break;
+                }
+                    c.AddSection(teacherSection);
+                }
+                }
+                addTeacher(teacher);
                 break;
 
                 case 2:
@@ -121,6 +208,7 @@ namespace Text_file_Based_System
                 break;
 
                 case 5:
+                /* 
                 Console.WriteLine("Enter the teacher ID in order to update his/her data: ");
                 Console.WriteLine("enter Teacher ID:");
                 isNemuricValue = int.TryParse(Console.ReadLine(), out teacherID);
@@ -139,6 +227,7 @@ namespace Text_file_Based_System
                 Console.WriteLine("Enter the teacher section");
                 updateTeacherSection(teacher, Console.ReadLine());
                 Console.WriteLine("teacher data updated successfully: \n" + teacher);
+                */
                 break;
 
                 default:
@@ -150,8 +239,7 @@ namespace Text_file_Based_System
         }// end Main method
 
 
-        public static void addTeacher(int ID, string name, string teacherClass, string section) {
-             Teacher teacher = new Teacher(ID, name, teacherClass, section);
+        public static void addTeacher(Teacher teacher) {
              teacherList.Add(teacher);
              Console.WriteLine("Teacher added successfully! \n"+teacher);
         } // end addTeacher method
@@ -173,7 +261,7 @@ namespace Text_file_Based_System
         public static Teacher findTeacherByName(string name){
             return  teacherList.Find (x => x.Name.Equals(name));
         }
-
+        /*
         //Update Teacher data methods
         public static bool updateTeacherClass (Teacher teacher, string Class){
             if (teacher==null)
@@ -187,6 +275,8 @@ namespace Text_file_Based_System
             teacher.Section = Section;
             return true;
         }
+         */
+        
         
     } //end Program class
 }
