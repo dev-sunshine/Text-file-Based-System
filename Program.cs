@@ -124,10 +124,48 @@ namespace Text_file_Based_System
 
         }
 
+        public static bool retrieveAllDataFromFile(){
+
+            StreamReader sr = new StreamReader(fileName);
+            var line = "";
+            string teacherName = "";
+            int teacherID = 0;
+            Teacher teacher = null;
+            string[] subs = null;
+            Class c = null;
+        
+
+            while ((line = sr.ReadLine()) != null)
+                {
+                    
+                    subs = line.Split(": ");
+                        if(subs[0].Equals("Teacher ID")) {
+                            int.TryParse(subs[1], out teacherID);
+                        }
+                        else if(subs[0].Equals("Teacher Name")) {
+                            teacherName = subs[1];
+                            teacher = new Teacher(teacherID,teacherName);
+                            teacherList.Add(teacher);
+                        }
+                        else if(subs[0].Equals("Class")) {
+                            c = new Class(subs[1]);
+                            teacher.AddClass(c);
+                        }
+                        
+                        else if(subs[0].Equals("Section")) {
+                            c.AddSection(subs[1]);
+
+                        }
+                }
+            return true;
+        }
+
         static void appendTeacherListToFile () {
-            foreach( Teacher teacher in teacherList){
+            //File.AppendAllText(fileName, teacher.ToString());
             using(StreamWriter writer = new StreamWriter(fileName)){
-                writer.WriteLine(teacher);
+             foreach( Teacher teacher in teacherList){
+               writer.WriteLine(teacher);
+            //    Console.WriteLine(teacher);
             }
             }
 
@@ -138,6 +176,7 @@ namespace Text_file_Based_System
         {
             Console.WriteLine("\nHello !");
             CreateFile();
+            retrieveAllDataFromFile();
             while(true) {
             Console.WriteLine("\nWhich service do you want? (Enter Number Only)\n1. Add a new teacher.\n2. retrieve all teachers data.\n3. retrieve teacher data by ID.\n4. retrieve teacher data by name.\n5. Update teacher data.\n6. Exit.\n");
             int serviceNum;
