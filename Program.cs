@@ -178,14 +178,14 @@ namespace Text_file_Based_System
             CreateFile();
             retrieveAllDataFromFile();
             while(true) {
-            Console.WriteLine("\nWhich service do you want? (Enter Number Only)\n1. Add a new teacher.\n2. retrieve all teachers data.\n3. retrieve teacher data by ID.\n4. retrieve teacher data by name.\n5. Update teacher data.\n6. Exit.\n");
+            Console.WriteLine("\nWhich service do you want? (Enter Number Only)\n1. Add a new teacher.\n2. retrieve all teachers data.\n3. retrieve teacher data by ID.\n4. retrieve teacher data by name.\n5. Update teacher data.\n6. Add a new class for a teacher.\n7. Add a new section to one of teacher classes\n8. Exit.\n");
             int serviceNum;
             bool isNemuricValue= int.TryParse(Console.ReadLine(), out serviceNum); //if it is true value is the parsed number or 0
             if (!isNemuricValue) {
                 Console.WriteLine("You have to enter numeric value only");
                 continue;
             }
-            if (serviceNum == 6)  {
+            if (serviceNum == 8)  {
                 appendTeacherListToFile();
                 break;
             }
@@ -381,6 +381,74 @@ namespace Text_file_Based_System
 
                 }
                 }
+                break;
+                case 6:
+                Console.WriteLine("Enter the teacher ID in order to add a new class: ");
+                Console.WriteLine("enter Teacher ID:");
+                isNemuricValue = int.TryParse(Console.ReadLine(), out teacherID);
+                if (!isNemuricValue) {
+                    Console.WriteLine("enter numeric value only");
+                continue;
+                }
+                teacher = findTeacherById(teacherID);
+                if(teacher==null) {
+                    Console.WriteLine("Teacher with this ID is not exist!");
+                continue;
+                }
+                Console.WriteLine(teacher);
+                Console.WriteLine("Enter the class name: ");
+                teacherClass = Console.ReadLine();
+                if(teacher.GetClass(teacherClass)!=null) {
+                    Console.WriteLine("this class already exist!");
+                continue;
+                }
+                Console.WriteLine($"enter the section for this class {teacherClass}:");
+                    teacherSection = Console.ReadLine();
+                    
+                    if(teacherSection.Equals("")) {
+                        Console.WriteLine("should not be empty! try again");
+                        continue;
+                    }
+                    c = new Class(teacherClass);
+                    c.AddSection(teacherSection);
+                    if(teacher.AddClass(c))
+                        Console.WriteLine(teacherClass+ " class added successfully");
+                    else Console.WriteLine("something wrong. the class doesn't added successfully");
+
+                break;
+
+                case 7:
+                Console.WriteLine("Enter the teacher ID in order to add a new section: ");
+                Console.WriteLine("enter Teacher ID:");
+                isNemuricValue = int.TryParse(Console.ReadLine(), out teacherID);
+                if (!isNemuricValue) {
+                    Console.WriteLine("enter numeric value only");
+                continue;
+                }
+                teacher = findTeacherById(teacherID);
+                if(teacher==null) {
+                    Console.WriteLine("Teacher with this ID is not exist!");
+                continue;
+                }
+                Console.WriteLine(teacher);
+                Console.WriteLine("Enter the class name for the new section: ");
+                teacherClass = Console.ReadLine();
+                c = teacher.GetClass(teacherClass);
+                if(c==null) {
+                    Console.WriteLine("this class is not exist!");
+                continue;
+                }
+                Console.WriteLine($"enter the new section for this class {teacherClass}:");
+                    teacherSection = Console.ReadLine();
+                    
+                    if(teacherSection.Equals("")) {
+                        Console.WriteLine("should not be empty! try again");
+                        continue;
+                    }
+                    if(c.AddSection(teacherSection))
+                        Console.WriteLine(teacherSection+ " section added successfully");
+                    else Console.WriteLine("section already exist!");
+
                 break;
 
                 default:

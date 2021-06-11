@@ -6,7 +6,7 @@ Section: 1
 Teacher ID: 2
 Teacher Name: 2
 Class: 2
-Section: 2
+Section: 10
 Section: 3
 Section: 4
 
@@ -14,6 +14,11 @@ Teacher ID: 6
 Teacher Name: 6
 Class: 6
 Section: 6
+Class: 4
+Section: 3
+Section: 4
+Class: 7
+Section: 3
 
 Teacher ID: 9
 Teacher Name: 9
