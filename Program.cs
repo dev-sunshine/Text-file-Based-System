@@ -115,12 +115,8 @@ namespace Text_file_Based_System
 
         public static void CreateFile(){
 
-            if(!File.Exists(fileName)){
+            if(!File.Exists(fileName))
                 File.CreateText(fileName);
-                Console.WriteLine("the file is empty! a new file created");
-            }
-            else
-            Console.WriteLine($"{fileName} File found!");
 
         }
 
@@ -161,11 +157,9 @@ namespace Text_file_Based_System
         }
 
         static void appendTeacherListToFile () {
-            //File.AppendAllText(fileName, teacher.ToString());
             using(StreamWriter writer = new StreamWriter(fileName)){
              foreach( Teacher teacher in teacherList){
                writer.WriteLine(teacher);
-            //    Console.WriteLine(teacher);
             }
             }
 
@@ -174,7 +168,7 @@ namespace Text_file_Based_System
 
         static void Main(string[] args)
         {
-            Console.WriteLine("\nHello !");
+            Console.WriteLine("\nHello !\nWelcome to the Rainbow School System");
             CreateFile();
             retrieveAllDataFromFile();
             while(true) {
