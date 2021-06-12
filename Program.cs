@@ -446,7 +446,7 @@ namespace Text_file_Based_System
                 break;
 
                 default:
-                Console.WriteLine("Enter only 1 to 6.");
+                Console.WriteLine("Enter only 1 to 8.");
                 break;
             }
             
