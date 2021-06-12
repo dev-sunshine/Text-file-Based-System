@@ -302,7 +302,7 @@ namespace Text_file_Based_System
                 Console.WriteLine(teacher);
                 int userEntered = 0;
                 while(true) {
-                Console.WriteLine("1. Change teacher name.\n2. Change one of the teacher classes.\n3. Change one of the teacher sections.\n4. Exit.\n");
+                Console.WriteLine("\n1. Change teacher name.\n2. Change one of the teacher classes.\n3. Change one of the teacher sections.\n4. Exit.\n");
                 isNemuricValue= int.TryParse(Console.ReadLine(), out userEntered);
                 if (!isNemuricValue) {
                 Console.WriteLine("You have to enter numeric value only");
@@ -474,7 +474,7 @@ namespace Text_file_Based_System
             return  teacherList.Find (x => x.ID== ID);
         }
         public static Teacher findTeacherByName(string name){
-            return  teacherList.Find (x => x.Name.Equals(name));
+            return  teacherList.Find (x => x.Name.ToLower().Equals(name.ToLower()));
         }
         
         

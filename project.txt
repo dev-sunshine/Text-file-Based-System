@@ -1,0 +1,16 @@
+Teacher ID: 1011
+Teacher Name: Sara
+Class: math
+Section: m123
+Section: m124
+Class: science
+Section: s123
+Section: s124
+
+Teacher ID: 1012
+Teacher Name: Noura Ahmad
+Class: arabic 1
+Section: a1123
+Class: english
+Section: eng123
+
